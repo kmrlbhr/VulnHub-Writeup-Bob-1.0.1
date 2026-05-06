@@ -186,6 +186,9 @@ seb@Milburg-High:~$ su jc
 jc@Milburg-High:/home$ ls
 bob elliot jc seb
 ```
+<img width="232" height="34" alt="user list" src="https://github.com/user-attachments/assets/72159b09-f9a4-4fc5-a944-149ec29ed861" />
+
+
 
 • This is good because we can directly list all the user.
 
