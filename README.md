@@ -77,6 +77,13 @@ In lat_memo.html, Bob admits he used a filter from an old Windows server. Window
 C. Path of Least Resistance
 Since I already have the URL for the shell, I don't need to perform a "Brute Force" attack on a login page or look for complex memory corruption vulnerabilities. The vulnerability is "exposed by design"—the developer literally built a back door for me.
 
+Methodology Phases
+1. **Intelligence Gathering**: Identifying the target IP on the subnet.
+2. **Vulnerability Analysis**: Mapping the attack surface via Nmap and directory enumeration.
+3. **Exploitation**: Leveraging RCE on the web shell to establish a foothold.
+4. **Post-Exploitation**: Lateral movement via credential harvesting and vertical escalation to Root.
+5. **Clean Up**: Sanitizing logs and history to minimize the forensic footprint.
+
 ## 🔓 Stage 3: Gaining Access ##
 Investigation of /lat_memo.html indicated that the developer implemented a weak command filter on a web shell located at /dev_shell.php.
 
