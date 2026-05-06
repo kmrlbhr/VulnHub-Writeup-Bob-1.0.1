@@ -12,7 +12,8 @@
 
 The engagement was conducted within an isolated virtual lab environment on a dedicated host-only network (`192.168.56.0/24`). This setup ensured that no traffic or exploitation activity leaked onto the production network.
 
-<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/b584be55-cbfa-4db0-984f-e390159deffd" />
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/ef923cac-15fb-4626-810f-a6a1a6567d0b" />
+
 
 
 
