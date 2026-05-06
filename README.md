@@ -8,6 +8,20 @@
 
 • Objective: Capture the root flag (flag.txt)
 
+## 🖥️ Network Architecture
+
+The engagement was conducted within an isolated virtual lab environment on a dedicated host-only network (`192.168.56.0/24`). This setup ensured that no traffic or exploitation activity leaked onto the production network.
+
+<img width="2816" height="1536" alt="Gemini_Generated_Image_3o13dv3o13dv3o13" src="https://github.com/user-attachments/assets/2959d057-1de7-431a-af7b-085942cea7b7" />
+
+
+### Machine Configuration
+
+| Machine Role | Operating System | IP Address |
+| :--- | :--- | :--- |
+| **Attacker** | Kali Linux | `192.168.56.102` |
+| **Target** (Bob 1.0.1) | Debian Linux | `192.168.56.103` |
+
 ## 🛠️ Stage 1: Reconnaissance ##
 To identify the target's IP address on the local virtual network, I performed an ARP sweep. Sweep the network for live hosts
 
