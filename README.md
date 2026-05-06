@@ -349,4 +349,17 @@ truncate -s 0: Empties the log files without deleting them, preventing service e
 
 • error.log: Hides how you exploited the vulnerabilities.
 
+### Tools Utilized
+
+| Phase | Tool | Purpose |
+| :--- | :--- | :--- |
+| **Reconnaissance** | `netdiscover` | Identifying the target IP address via ARP requests. |
+| **Scanning** | `nmap` | Mapping open ports and service version detection. |
+| **Initial Access** | `Netcat (nc)` | Setting up a local listener to intercept the reverse shell. |
+| **Exploitation** | `Bash` | Executing a `/dev/tcp` reverse shell payload. |
+| **Enumeration** | `find` / `ls` | Recursively searching the filesystem for hidden credentials. |
+| **Lateral Movement** | `SSH` / `su` | Pivoting between users using harvested credentials. |
+| **Privilege Escalation** | `GPG` | Decrypting password vaults using discovered passphrases. |
+| **Housekeeping** | `truncate` | Zeroing out system logs (`auth.log`, `access.log`). |
+
 # Final Status: Root Compromised. Tracks Cleared. 
