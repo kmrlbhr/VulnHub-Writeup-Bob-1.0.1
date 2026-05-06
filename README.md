@@ -77,7 +77,9 @@ In lat_memo.html, Bob admits he used a filter from an old Windows server. Window
 C. Path of Least Resistance
 Since I already have the URL for the shell, I don't need to perform a "Brute Force" attack on a login page or look for complex memory corruption vulnerabilities. The vulnerability is "exposed by design"—the developer literally built a back door for me.
 
-Methodology Phases
+This engagement followed the **PTES (Penetration Testing Execution Standard)** methodology to ensure a systematic and professional compromise of the target.
+
+### Methodology Phases
 1. **Intelligence Gathering**: Identifying the target IP on the subnet.
 2. **Vulnerability Analysis**: Mapping the attack surface via Nmap and directory enumeration.
 3. **Exploitation**: Leveraging RCE on the web shell to establish a foothold.
