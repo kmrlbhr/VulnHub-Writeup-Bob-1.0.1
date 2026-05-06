@@ -12,7 +12,9 @@
 
 The engagement was conducted within an isolated virtual lab environment on a dedicated host-only network (`192.168.56.0/24`). This setup ensured that no traffic or exploitation activity leaked onto the production network.
 
-<img width="2816" height="1536" alt="Gemini_Generated_Image_3o13dv3o13dv3o13" src="https://github.com/user-attachments/assets/2959d057-1de7-431a-af7b-085942cea7b7" />
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/b584be55-cbfa-4db0-984f-e390159deffd" />
+
+
 
 
 ### Machine Configuration
