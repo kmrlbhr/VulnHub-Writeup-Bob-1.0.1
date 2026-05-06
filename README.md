@@ -110,6 +110,20 @@ seb@Milburg-High:~$ su jc
 
 • jc password : Qwerty
 
+```bash
+jc@Milburg-High:/home$ ls
+bob elliot jc seb
+```
+
+• This is good because we can directly list all the user.
+
+```bash
+jc@Milburg-High:/home$ cd elliot
+jc@Milburg-High:/home/elliot$ ls
+Desktop  Documents  Downloads  Music  Pictures  Templates  theadminisdumb.txt  Videos
+jc@Milburg-High:/home/elliot$ cat theadminisdumb.txt
+```
+
 I also found Elliot's password (theadminisdumb) in /home/elliot/theadminisdumb.txt.  
 
 ```bash
