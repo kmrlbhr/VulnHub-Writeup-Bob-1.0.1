@@ -44,8 +44,38 @@ sudo nmap -sC -sV -p- -T4 192.168.56.103
 Findings:
 | Port | State | Service | Version | Key Findings |
 | :--- | :--- | :--- | :--- | :--- |
-| **80** | Open | HTTP | Apache httpd 2.4.25 (Debian) | Enumerated `robots.txt` disclosing `/dev_shell.php`, `/lat_memo.html`, , `/login.php` and `/passwords.html`. |
+| **80** | Open | HTTP | Apache httpd 2.4.25 (Debian) | Enumerated `robots.txt` disclosing `/dev_shell.php`, `/lat_memo.html`, `/login.php` and `/passwords.html`. |
 | **25468** | Open | SSH | OpenSSH 7.4p1 (Protocol 2.0) | Discovered SSH on a non-standard port; used for lateral movement and root pivot. |
+
+
+<img width="1918" height="942" alt="login php" src="https://github.com/user-attachments/assets/fa6b96e6-a183-4d2c-992a-0c09aac4b60e" />
+
+<img width="1918" height="940" alt="passwords html" src="https://github.com/user-attachments/assets/1af8c6ed-3092-4204-b5f9-2681de51b80e" />
+
+<img width="1919" height="940" alt="dev_shell php" src="https://github.com/user-attachments/assets/345df718-eb93-4fd6-8dbc-aca95b46f710" />
+
+<img width="1917" height="943" alt="lat_memo html" src="https://github.com/user-attachments/assets/3e558121-900b-4dbc-b1d9-5a685a9cdca6" />
+
+
+
+| Page Path | Status / Content | Security Significance |
+| :--- | :--- | :--- |
+| `/login.php` | **404 Not Found** | Endpoint does not exist. Dismissed as a vector. |
+| `/passwords.html` | **Text Leak** | Confirmed historical credential leaks; suggested passwords had been moved to the filesystem. |
+| `/lat_memo.html` | **Intel Leak** | Disclosed an unprotected web shell and the use of a legacy Windows-ported filter. |
+| `/dev_shell.php` | **Functional RCE** | **Primary Entry Point.** A functional administrative tool providing a direct interface to the OS. |
+
+**Why I decided to use dev_shell.php**
+The decision to use dev_shell.php was based on three primary factors:
+
+A. Direct Remote Code Execution (RCE)
+Unlike the other pages, which are static (HTML) or non-existent (404), dev_shell.php is an active script designed to process commands. It acts as a bridge between the web browser and the server's terminal, which is exactly what an attacker needs to gain a foothold.
+
+B. The "Windows Filter" Weakness
+In lat_memo.html, Bob admits he used a filter from an old Windows server. Windows and Linux handle command characters (like /, \, ;, and &) very differently. A filter designed for Windows often fails to block common Linux shell operators, making the "protection" Bob mentioned practically useless against a Linux-based reverse shell payload.
+
+C. Path of Least Resistance
+Since I already have the URL for the shell, I don't need to perform a "Brute Force" attack on a login page or look for complex memory corruption vulnerabilities. The vulnerability is "exposed by design"—the developer literally built a back door for me.
 
 ## 🔓 Stage 3: Gaining Access ##
 Investigation of /lat_memo.html indicated that the developer implemented a weak command filter on a web shell located at /dev_shell.php.
@@ -188,9 +218,11 @@ It was used to uncover hidden files, scripts, and sensitive documentation buried
 
 Next I discover `login.txt.gpg` in `/home/bob/Documents` but when i try to read this file by using cat it only show raw, binary data of an encrypted file.
 
-When you use the cat command on a .gpg file, you are telling the terminal to display its contents as plain text. However, because the file is encrypted, the data consists of binary characters that the terminal cannot translate into readable letters, resulting in the "gibberish" or symbols
-<img width="1504" height="204" alt="cat login txt gpg" src="https://github.com/user-attachments/assets/037bb9ad-e6b6-413e-ab97-21b8a32046cc" />
 
+<img width="1504" height="204" alt="cat login txt gpg" src="https://github.com/user-attachments/assets/2b3a903e-4ca2-4af5-bd49-7973f6d4f7c2" />
+
+
+When you use the cat command on a .gpg file, you are telling the terminal to display its contents as plain text. However, because the file is encrypted, the data consists of binary characters that the terminal cannot translate into readable letters, resulting in the "gibberish" or symbols
 
 
 ## Vertical Escalation (Root)
