@@ -101,6 +101,7 @@ www-data@Milburg-High:/var/www/html$ cat /home/bob/.old_passwordfile.html
 
 
 Findings:
+
 • Located /home/bob/.old_passwordfile.html, which contained credentials for jc (Qwerty) and seb (T1tanium_Pa$$word_Hack3rs_Fear_M3).
 
 ### Lateral Movement (Pivoting to SSH)
