@@ -40,7 +40,7 @@ sudo nmap -sC -sV -p- -T4 192.168.56.103
 Findings:
 | Port | State | Service | Version | Key Findings |
 | :--- | :--- | :--- | :--- | :--- |
-| **80** | Open | HTTP | Apache httpd 2.4.25 (Debian) | Enumerated `robots.txt` disclosing `/dev_shell.php`, `/lat_memo.html`, and `/passwords.html`. |
+| **80** | Open | HTTP | Apache httpd 2.4.25 (Debian) | Enumerated `robots.txt` disclosing `/dev_shell.php`, `/lat_memo.html`, , `/login.php` and `/passwords.html`. |
 | **25468** | Open | SSH | OpenSSH 7.4p1 (Protocol 2.0) | Discovered SSH on a non-standard port; used for lateral movement and root pivot. |
 
 ## 🔓 Stage 3: Gaining Access ##
