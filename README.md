@@ -130,6 +130,28 @@ I also found Elliot's password (theadminisdumb) in /home/elliot/theadminisdumb.t
 jc@Milburg-High:/home/elliot$ ls -laR /home/bob /home/elliot 2>/dev/null
 ```
 
+After run this command, it will spit out 156 files in `/home/bob` and `/home/elliot`. File `notes.sh` was found.
+
+`notes.sh` file location : `/home/bob/Documents/Secret/Keep_Out/Not_Porn/No_lookie_In_Here`
+
+```bash
+jc@Milburg-High:/home/elliot$ cd /home
+jc@Milburg-High:/home$ cd bob
+jc@Milburg-High:/home/bob$ cd Documents
+jc@Milburg-High:/home/elliot/Documents$ cd Secret
+jc@Milburg-High:/home/elliot/Documents/Secret$ cd Keep_Out
+jc@Milburg-High:/home/elliot/Documents/Secret/Keep_out$ cd Not_Porn
+jc@Milburg-High:/home/elliot/Documents/Secret/Keep_out/Not_Porn$ cd No_Lookie_In_Here
+jc@Milburg-High:/home/elliot/Documents/Secret/Keep_out/Not_Porn/No_Lookie_In_Here$ ls
+notes.sh
+```
+
+```bash
+cat notes.sh
+```
+
+acrostic passphrase HARPOCRATES was found inside `notes.sh`
+
 ## Flag Breakdown :
 
 • ls: The base command used to list directory contents.
@@ -142,6 +164,9 @@ This command is a recursive directory listing focused on the home directories of
 
 It was used to uncover hidden files, scripts, and sensitive documentation buried deep within the filesystem.  
 
+Next I discover `login.txt.gpg` in `/home/bob/Documents` but when i try to read this file by using cat it only show raw, binary data of an encrypted file.
+
+When you use the cat command on a .gpg file, you are telling the terminal to display its contents as plain text. However, because the file is encrypted, the data consists of binary characters that the terminal cannot translate into readable letters, resulting in the "gibberish" or symbols
 
 ## Vertical Escalation (Root)
 
@@ -234,5 +259,13 @@ truncate -s 0 /var/log/apache2/error.log
 
 history -c: Clears the current session's history buffer.  
 truncate -s 0: Empties the log files without deleting them, preventing service errors while removing the forensic trail. 
+
+• auth.log: Size 0 (Evidence of SSH/Sudo activity removed).  
+
+• access.log: Size 0 (Evidence of web-based RCE removed).  
+
+• .bash_history: Deleted (Evidence of manual commands removed).
+
+• error.log: Hides how you exploited the vulnerabilities.
 
 # Final Status: Root Compromised. Tracks Cleared. 
