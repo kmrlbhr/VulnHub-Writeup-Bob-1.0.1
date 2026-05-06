@@ -1,51 +1,23 @@
-## 🛠️ Network Discovery & Reconnaissance ##
+## 🛠️ Toolkit & Methodology
 
-These tools were used to identify the target and map the available entry points.
+This engagement followed the **PTES (Penetration Testing Execution Standard)** methodology to ensure a systematic and professional compromise of the target.
 
-netdiscover: Used for active/passive ARP reconnaissance to find the target's IP address on the local subnet.
+### 1. Methodology Phases
+1. **Intelligence Gathering**: Identifying the target IP on the subnet.
+2. **Vulnerability Analysis**: Mapping the attack surface via Nmap and directory enumeration.
+3. **Exploitation**: Leveraging RCE on the web shell to establish a foothold.
+4. **Post-Exploitation**: Lateral movement via credential harvesting and vertical escalation to Root.
+5. **Clean Up**: Sanitizing logs and history to minimize the forensic footprint.
 
-nmap (Network Mapper): The primary tool for port scanning, service version detection (-sV), and running default vulnerability scripts (-sC).
+### 2. Tools Utilized
 
-##🧨 Exploitation & Initial Access##
-
-These tools allowed you to bridge the gap between the web interface and the server's operating system.
-
-Web Browser (Firefox/Chrome): Used to manually enumerate hidden directories (/dev_shell.php, /lat_memo.html) discovered by Nmap.
-
-bash: Utilized as the primary payload language to establish a TCP-based reverse shell (/dev/tcp/...).
-
-netcat (nc): Used on your Kali machine to set up a listener (-lvnp) to catch the incoming connection from the target.
-
-##📈 Post-Exploitation & Enumeration##
-
-Once initial access was gained, these built-in Linux utilities were used to find sensitive data and move laterally.
-
-find: Used to search the entire filesystem for sensitive files containing the string "password."
-
-ls: Used with flags like -laR to recursively list all files, including hidden ones, in the home directories of bob and elliot.
-
-cat: Used to read the contents of harvested files like .old_passwordfile.html and theadminisdumb.txt.
-
-ssh: Used to pivot from the unstable web shell to a secure, encrypted interactive session on the non-standard port 25468.
-
-##🔑 Privilege Escalation & Cryptography##
-
-These tools were used to crack security layers and achieve administrative (root) authority.
-
-gpg (GNU Privacy Guard): Specifically used to decrypt the login.txt.gpg file using a discovered passphrase to reveal the administrator's password.
-
-su (Substitute User): Used to switch between accounts (seb, jc, bob) as you moved through the lateral movement phase.
-
-sudo: Used with the -i flag to elevate your session to a root shell once the administrative password was recovered.
-
-id: The definitive tool used to verify that your effective user ID had reached 0 (root).
-
-##🧹 Housekeeping & Anti-Forensics##
-
-These tools were used to clean up the environment and hide the footprints of the attack.
-
-history: Used with the -c flag to wipe the command buffer of the active shell.
-
-rm: Used to delete physical artifacts like .bash_history and any uploaded shell scripts.
-
-truncate: Used to zero out system and web logs (auth.log, access.log, error.log) to hide the intrusion without crashing system services.
+| Phase | Tool | Purpose |
+| :--- | :--- | :--- |
+| **Reconnaissance** | `netdiscover` | Identifying the target IP address via ARP requests. |
+| **Scanning** | `nmap` | Mapping open ports and service version detection. |
+| **Initial Access** | `Netcat (nc)` | Setting up a local listener to intercept the reverse shell. |
+| **Exploitation** | `Bash` | Executing a `/dev/tcp` reverse shell payload. |
+| **Enumeration** | `find` / `ls` | Recursively searching the filesystem for hidden credentials. |
+| **Lateral Movement** | `SSH` / `su` | Pivoting between users using harvested credentials. |
+| **Privilege Escalation** | `GPG` | Decrypting password vaults using discovered passphrases. |
+| **Housekeeping** | `truncate` | Zeroing out system logs (`auth.log`, `access.log`). |
