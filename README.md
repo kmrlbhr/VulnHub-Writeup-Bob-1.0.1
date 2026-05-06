@@ -340,7 +340,7 @@ Persistence is achieved via the non-standard SSH service (Port 25468) using the 
 
 To remove forensic evidence of the intrusion, I sanitized the system logs and command history.
 
-# Truncate system logs
+**Truncate system logs**
 ```Bash
 truncate -s 0 /var/log/auth.log
 truncate -s 0 /var/log/apache2/access.log
@@ -349,7 +349,7 @@ truncate -s 0 /var/log/apache2/error.log
 <img width="579" height="184" alt="truncate" src="https://github.com/user-attachments/assets/549929d8-3b13-4a70-9378-3da03a8acf61" />
 
 
-# Clear command history
+**Clear command history**
 ```Bash
 history -c && rm /root/.bash_history
 ```
